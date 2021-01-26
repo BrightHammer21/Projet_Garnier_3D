@@ -15,11 +15,11 @@
 #declare Start=0;
 #declare End=2*Pi;
 #declare My_Clock=Start+(End-Start)*clock;
-#declare sca=3;  
+#declare sca=25;  
 
 camera{   
-    location <0.75*sca,1.05*sca,-0.25>
-    look_at <0,0,0>
+    location <0.1*sca,1*sca,9>
+    look_at <0,0,9>
     sky <0,0,1>
     right <-image_width/image_height,0,0>
 }
@@ -60,8 +60,8 @@ plane{
     material{  
         texture{
             pigment{ 
-                brick rgbt<1.0,1.,1.0,0.250>,
-                rgbt<0.750,.5,0.0,0.850> mortar 5 brick_size 125                       
+                brick color  GreenCopper,
+                color PaleGreen mortar 5 brick_size 50                       
             } 
             finish{
                 phong 0.8
@@ -79,4 +79,68 @@ plane{
         }
     }
     rotate <0,0,45>
+}  
+
+///////// SAPIN
+
+#declare pEtages = 1;
+#declare hauteurTronc = 4; 
+#declare rayonTronc = 1;
+#declare rayonCone=4;
+#declare i=0; 
+#declare nCylindreSphere=5;
+                        
+#declare monSapin=object
+{
+    union{ 
+        //TRONC
+        cylinder{ 
+            <0,0,-1>
+            <0,0,hauteurTronc>
+            rayonTronc
+            pigment {
+               color Brown
+            }               
+        }
+        
+       
+       
+       #while(i<nCylindreSphere)
+            union
+            {
+                 difference
+                 {   
+                    //Branches
+                    cone
+                    { 
+                         <0,0,hauteurTronc+(i*3)> (rayonCone*(1-i/nCylindreSphere))
+                         <0,0,hauteurTronc+(i+1)*3> ((1-(i+1)/nCylindreSphere))
+                    } 
+                    union
+                    {
+                        #declare j=0;
+                        #while(j<20)
+                            cylinder
+                            {   
+                                <0.5,1,1>
+                                <1,0.5,1>
+                                2
+                            }  
+                            #declare j=j+1;
+                         #end                          
+                    } 
+                    pigment
+                    { 
+                        color MediumForestGreen
+                    }
+                 }
+                 //Boules
+            }
+            #declare i=i+1;
+         #end
+          }
+}                        
+                        
+object{         
+    monSapin
 }
