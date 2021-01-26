@@ -84,11 +84,14 @@ plane{
 ///////// SAPIN
 
 #declare pEtages = 1;
-#declare hauteurTronc = 4; 
+#declare hauteurTronc = 3; 
 #declare rayonTronc = 1;
 #declare rayonCone=4;
 #declare i=0; 
-#declare nCylindreSphere=5;
+#declare nbEtageBranches=5;
+#declare nbBoulesSapin=15; 
+#declare rayonBoulesSapin=0.25;  
+#declare rotation = 2*Pi/nbBoulesSapin;
                         
 #declare monSapin=object
 {
@@ -105,7 +108,7 @@ plane{
         
        
        
-       #while(i<nCylindreSphere)
+       #while(i<nbEtageBranches)
             union
             {
                  difference
@@ -113,8 +116,8 @@ plane{
                     //Branches
                     cone
                     { 
-                         <0,0,hauteurTronc+(i*3)> (rayonCone*(1-i/nCylindreSphere))
-                         <0,0,hauteurTronc+(i+1)*3> ((1-(i+1)/nCylindreSphere))
+                         <0,0,hauteurTronc+(i*3)> (rayonCone*(1-i/nbEtageBranches))
+                         <0,0,hauteurTronc+(i+1)*3> ((1-(i+1)/nbEtageBranches))
                     } 
                     union
                     {
@@ -134,7 +137,21 @@ plane{
                         color MediumForestGreen
                     }
                  }
-                 //Boules
+                 //Boules 
+                 #declare k=0;
+                 #while(k<nbBoulesSapin)  
+                    sphere
+                    {
+                        <rayonBoulesSapin*(1-i/nbEtageBranches)*cos(2*Pi*k/nbBoulesSapin+rotation),10*sin(2*Pi*k/nbBoulesSapin+rotation),5+i*nbEtageBranches>
+                        rayonBoulesSapin/(i+1)
+                        pigment
+                        {
+                            color SpicyPink
+                        }                       
+                 
+                    } 
+                    #declare k=k+1;
+                 #end
             }
             #declare i=i+1;
          #end
