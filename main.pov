@@ -93,31 +93,26 @@ plane{
 #declare nbCylindreSapin=15;
 #declare rayonBoulesSapin=0.3;  
 #declare rotation = (2*Pi/nbBoulesSapin)+1.05;  //pour placer les boules au milieu des branches
+                   
+                   
+                  
+                   
                         
 #declare monSapin=object
 {
     union{ 
         //TRONC
+                                      
         cylinder{ 
             <0,0,-1>
             <0,0,hauteurTronc>
-            rTronc
-            pigment {
+            rTronc 
+             pigment {    
                color Brown
             }               
         }
            
-         /*lathe
-         {
-             bezier_spline
-             4,
-             <1,1> 
-             <1,1.5> 
-             <1,2> 
-             <1.25,2>
-             pigment{Blue}
-         }  */
-       
+         
        
        #while(i<nbEtageBranches) 
                             
@@ -147,17 +142,19 @@ plane{
                                 <rayonC*cos (theta),rayonC*sin(theta),monZ>
                                 <rayonC2*cos (theta),rayonC2*sin(theta),monZ2>                                 
                                 ((1-(i)/nbEtageBranches))/6
-                            } 
-                          
+                            }  
+                            
+                             
                             #declare j=j+1;
                         #end                          
                    } 
                     pigment
                     { 
+                        //rgbt <0,0,0,1>
                         color MediumForestGreen
                     }
                  }
-                 //Boules sur le sapin 
+                 //Boules sur le sapin avec leur ficelles 
                  #declare k=0;                 
                                                             
                  #while(k<nbBoulesSapin)   
@@ -165,28 +162,114 @@ plane{
                     #declare rayon=rayonCone*(1-i/nbEtageBranches); 
                     #declare monZ=i*nbEtageBranches;
                     #declare theta2=k*2*Pi/nbBoulesSapin + rotation;
+                    
+                    union{ 
+                        cylinder
+                        {                                                              
+                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)>
+                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.35>
+                             rayonBoulesSapin/(i+1)/4
+                             
+                        }
+                    
+                        sphere
+                        {                           
+                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.35>
+                            rayonBoulesSapin/(i+1)
                                 
-                    sphere
-                    {                           
-                        <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)>
-                        rayonBoulesSapin/(i+1)
+                     
+                        }
                         pigment
                         {
-                            color SpicyPink 
-                        }  
-                                   
-                 
-                    } 
+                            rgb <255,0,0> 
+                        }
+                        finish
+                        { phong 0.8 ambient 1 diffuse 0.5 reflection 0.5}   
+                    
+                    }
+                                
+                    
                     #declare k=k+1;
                  #end //FIN WHILE BOULES SAPIN
-            }
+            } 
+           
+            
             #declare i=i+1;
          #end
           }
 }                        
 
+     
 
                         
 object{         
     monSapin
 } 
+ 
+
+//mesGuirlandes(1,rayonTronc) 
+#declare tabPt = array[4];  
+#macro mesGuirlandes(etage,rayon)   
+    #declare P1 = <2*rayon-2,etage*hauteurTronc>;
+    #declare P2 = <2*rayon,etage*hauteurTronc>;
+    #declare P3 = <rayon-2,etage*hauteurTronc>;
+    #declare P4 = <rayon-4,etage*hauteurTronc> ;  
+    #declare tabPt[0]=P3 ;
+       #declare tabPt[1]=P2 ;
+       #declare tabPt[2]=P4;
+       #declare tabPt[3]=P1;
+    /*
+    #declare P1 = <2*rayon,etage*hauteurTronc>;
+    #declare P2 = <2*rayon,etage*hauteurTronc>;
+    #declare P3 = <rayon,etage*hauteurTronc>;
+    #declare P4 = <rayon,etage*hauteurTronc>; */ 
+    /* 
+    #declare theta=2*Pi/nbBoulesSapin + rotation;
+    #declare P1 = <rayon * cos(theta),rayon*sin(theta)>;
+    #declare P2 = <rayon * cos(theta)+1,rayon*sin(theta)+1>;
+    #declare P3 = <rayon * cos(theta)+5,etage*sin(theta)+1>;
+    #declare P4 = <rayon * cos(theta)+5,rayon*sin(theta)>;*/ 
+    
+    lathe
+    {
+       bezier_spline
+       4,
+       P3
+       P2         
+       P4
+       P1 
+       
+       
+       #if(mod(etage,2)=0)
+             rotate <80,0,10>
+       #else
+             rotate <100,0,10>
+       #end
+            
+    
+       pigment
+       {
+        color Cyan
+       }
+    }
+    
+    /* cylinder
+     {  
+        tabPt[0] tabPt[1]
+        rayon
+         pigment
+           {
+            color Blue
+           }
+     }  */
+    
+#end 
+
+                     
+#declare i=1;    
+#while(i<nbEtageBranches)      
+ mesGuirlandes(i,rayonCone)   
+ 
+
+ #declare i=i+1;             
+#end                 
