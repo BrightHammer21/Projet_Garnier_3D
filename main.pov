@@ -83,15 +83,16 @@ plane{
 
 ///////// SAPIN
 
-#declare pEtages = 1;
 #declare hauteurTronc = 3; 
-#declare rayonTronc = 1;
+#declare rayonTronc = 3;
+#declare rTronc = 1;
+#declare nbEtageBranches=6;
 #declare rayonCone=4;
 #declare i=0; 
-#declare nbEtageBranches=5;
 #declare nbBoulesSapin=15; 
-#declare rayonBoulesSapin=0.5;  
-#declare rotation = 2*Pi/nbBoulesSapin;
+#declare nbCylindreSapin=15;
+#declare rayonBoulesSapin=0.3;  
+#declare rotation = (2*Pi/nbBoulesSapin)+1.05;  //pour placer les boules au milieu des branches
                         
 #declare monSapin=object
 {
@@ -100,21 +101,26 @@ plane{
         cylinder{ 
             <0,0,-1>
             <0,0,hauteurTronc>
-            rayonTronc
+            rTronc
             pigment {
                color Brown
             }               
         }
-        
+           
+         /*lathe
+         {
+             bezier_spline
+             4,
+             <1,1> 
+             <1,1.5> 
+             <1,2> 
+             <1.25,2>
+             pigment{Blue}
+         }  */
        
        
        #while(i<nbEtageBranches) 
-            #declare rayon=rayonBoulesSapin*(1-i/nbEtageBranches);  
-            #declare autreR=rayonBoulesSapin*(1+i/nbEtageBranches);  
-            
-            #declare theta=i*2*Pi/nbBoulesSapin + rotation; 
-            #declare monZ=i*nbEtageBranches;
-                 
+                            
             union
             {
                  difference
@@ -128,16 +134,24 @@ plane{
                     union
                     {
                         #declare j=0;
-                        #while(j<nbBoulesSapin)
-                            cylinder  //pour faire les stries, à revoir
-                            {   
-                                <rayon*cos(theta),rayon*sin(theta),monZ>
-                                <0,0,monZ>
-                                (1-i/hauteurTronc)
-                            }  
+                        #while(j<nbCylindreSapin) 
+                              
+                            #declare rayonC=rayonCone*(1-i/nbEtageBranches);  
+                            #declare rayonC2=(1-(1+i)/nbEtageBranches);                                  
+                            #declare theta=2*Pi*j/nbCylindreSapin;                                
+                            #declare monZ=hauteurTronc+i*rayonTronc;
+                            #declare monZ2=hauteurTronc+(i+1)*rayonTronc; 
+                              
+                            cylinder  //pour faire les stries des branches
+                            {    
+                                <rayonC*cos (theta),rayonC*sin(theta),monZ>
+                                <rayonC2*cos (theta),rayonC2*sin(theta),monZ2>                                 
+                                ((1-(i)/nbEtageBranches))/6
+                            } 
+                          
                             #declare j=j+1;
-                         #end                          
-                    } 
+                        #end                          
+                   } 
                     pigment
                     { 
                         color MediumForestGreen
@@ -147,10 +161,14 @@ plane{
                  #declare k=0;                 
                                                             
                  #while(k<nbBoulesSapin)   
-                           #declare theta=k*2*Pi/nbBoulesSapin + rotation;            
+                 
+                    #declare rayon=rayonCone*(1-i/nbEtageBranches); 
+                    #declare monZ=i*nbEtageBranches;
+                    #declare theta2=k*2*Pi/nbBoulesSapin + rotation;
+                                
                     sphere
                     {                           
-                        <rayon*cos(theta)*8,rayon*sin(theta)*8,hauteurTronc+(monZ/1.60)>
+                        <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)>
                         rayonBoulesSapin/(i+1)
                         pigment
                         {

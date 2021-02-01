@@ -90,7 +90,7 @@ plane{
 #declare i=0; 
 #declare nbEtageBranches=5;
 #declare nbBoulesSapin=15; 
-#declare rayonBoulesSapin=0.25;  
+#declare rayonBoulesSapin=0.5;  
 #declare rotation = 2*Pi/nbBoulesSapin;
                         
 #declare monSapin=object
@@ -108,7 +108,13 @@ plane{
         
        
        
-       #while(i<nbEtageBranches)
+       #while(i<nbEtageBranches) 
+            #declare rayon=rayonBoulesSapin*(1-i/nbEtageBranches);  
+            #declare autreR=rayonBoulesSapin*(1+i/nbEtageBranches);  
+            
+            #declare theta=i*2*Pi/nbBoulesSapin + rotation; 
+            #declare monZ=i*nbEtageBranches;
+                 
             union
             {
                  difference
@@ -122,12 +128,12 @@ plane{
                     union
                     {
                         #declare j=0;
-                        #while(j<20)
-                            cylinder
+                        #while(j<nbBoulesSapin)
+                            cylinder  //pour faire les stries, à revoir
                             {   
-                                <0.5,1,1>
-                                <1,0.5,1>
-                                2
+                                <rayon*cos(theta),rayon*sin(theta),monZ>
+                                <0,0,monZ>
+                                (1-i/hauteurTronc)
                             }  
                             #declare j=j+1;
                          #end                          
@@ -137,21 +143,24 @@ plane{
                         color MediumForestGreen
                     }
                  }
-                 //Boules 
-                 #declare k=0;
-                 #while(k<nbBoulesSapin)  
+                 //Boules sur le sapin 
+                 #declare k=0;                 
+                                                            
+                 #while(k<nbBoulesSapin)   
+                           #declare theta=k*2*Pi/nbBoulesSapin + rotation;            
                     sphere
-                    {
-                        <rayonBoulesSapin*(1-i/nbEtageBranches)*cos(2*Pi*k/nbBoulesSapin+rotation),10*sin(2*Pi*k/nbBoulesSapin+rotation),5+i*nbEtageBranches>
+                    {                           
+                        <rayon*cos(theta)*8,rayon*sin(theta)*8,hauteurTronc+(monZ/1.60)>
                         rayonBoulesSapin/(i+1)
                         pigment
                         {
-                            color SpicyPink
-                        }                       
+                            color SpicyPink 
+                        }  
+                                   
                  
                     } 
                     #declare k=k+1;
-                 #end
+                 #end //FIN WHILE BOULES SAPIN
             }
             #declare i=i+1;
          #end
