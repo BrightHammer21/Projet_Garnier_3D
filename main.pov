@@ -164,27 +164,40 @@ plane{
                     #declare theta2=k*2*Pi/nbBoulesSapin + rotation;
                     
                     union{ 
-                        cylinder
-                        {                                                              
-                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)>
-                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.35>
-                             rayonBoulesSapin/(i+1)/4
-                             
-                        }
-                    
                         sphere
                         {                           
-                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.35>
+                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)>
                             rayonBoulesSapin/(i+1)
                                 
                      
                         }
+                        cylinder
+                        {                                                              
+                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.45-(nbEtageBranches-i)/20>
+                            <rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)>
+                             rayonBoulesSapin/(i+1)/4
+                             
+                        }
+                    
+                        lathe
+                        {
+                          linear_spline 
+                          4 //nbr_Pt
+                          <0.3/(i+1),0>, <0.3/(i+1),0.4/(i+1)>, <0,0.3/(i+1)>, <0,0.1/(i+1)>  
+                          rotate<0,0,12*k>     
+                          translate<rayon*cos(theta2)+0.09,rayon*sin(theta2)+0.5,hauteurTronc+(monZ/2)-0.45-(nbEtageBranches-i)/20> 
+                          pigment {White transmit .5} 
+                        }  
+                         
                         pigment
                         {
                             rgb <255,0,0> 
                         }
                         finish
                         { phong 0.8 ambient 1 diffuse 0.5 reflection 0.5}   
+                           
+                           
+                         
                     
                     }
                                 
@@ -265,11 +278,11 @@ object{
     
 #end 
 
-                     
+  /*                   
 #declare i=1;    
 #while(i<nbEtageBranches)      
  mesGuirlandes(i,rayonCone)   
  
 
  #declare i=i+1;             
-#end                 
+#end    */             
