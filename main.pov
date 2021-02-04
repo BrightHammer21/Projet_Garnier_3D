@@ -97,8 +97,26 @@ plane{
 #declare rotation = (2*Pi/nbBoulesSapin)+1.05;  //pour placer les boules au milieu des branches
                    
                    
-                  
-                   
+#declare P0=<rayonCone,rayonCone>;
+#declare P1=<1,1>;
+#declare P2=<0.5,0.5>;
+#declare P3=<(rayonCone*(1-i/nbEtageBranches)),(rayonCone*(1-i/nbEtageBranches))>;  
+#declare rayonGuirlande = 0.1;
+
+#declare tab1=array[4];
+#declare tab1[0]=P0;
+#declare tab1[1]=P1;
+#declare tab1[2]=P2;
+#declare tab1[3]=P3;  
+        
+#declare c=0;   
+#declare n=10;    
+#declare tabPt=array[n+1];     
+     
+#declare p=0;  
+#declare monEtage=0;  
+#declare rayonGuirlande = 0.1;              
+               
                         
 #declare monSapin=object
 {
@@ -201,40 +219,7 @@ plane{
                                         
                     }
                        
-                     //////////////////GUIRLANDE
-                      /*  #declare P0=<0,0>;
-                        #declare P1=<0.1,0.1>;
-                        #declare P2=<0.2,0.2>;
-                        #declare P3=<0.3,0.3>; 
-                        #declare rayonGuirlande = 0.2;
-                        
-                        #declare tab1=array[4];
-                        #declare tab1[0]=P0;
-                        #declare tab1[1]=P1;
-                        #declare tab1[2]=P2;
-                        #declare tab1[3]=P3;
-                        lathe
-                         {
-                          bezier_spline 
-                          4 //nbr_Pt
-                          tab1[0],tab1[1],tab1[2],tab1[3]  
-                          translate<rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)+(nbEtageBranches-i)/5>
-                          pigment {Green transmit .5} 
-                         } 
-                          
-                         #declare p=0;
-                         #while(p<3) 
-                            cylinder{
-                                tab1[p] 
-                                tab1[p+1] 
-                                rayonGuirlande  
-                                 rotate<0,0,12*p>   
-                                translate<rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)+(nbEtageBranches-i)/5>
-                                pigment {color Blue}  
-                                }
-                            #declare p=p+1;
-                         #end  */ 
-                                
+                    
                     
                     #declare k=k+1;
                  #end //FIN WHILE BOULES SAPIN
@@ -252,21 +237,74 @@ plane{
 object{         
     monSapin
 } 
- 
+        
 
 //mesGuirlandes  ////////////////////////////////////////
-#declare rayonGuirlande = 1;
-#declare nbPtGuirlande = 4;
+/////////////////GUIRLANDE
+                       
+  
 
-/*
-#declare tabPt = array[4];  
-#macro mesGuirlandes(etage,rayon)   
+ 
+ #while (monEtage<nbEtageBranches)
+      
+    
+    #declare rayonC=rayonCone*(1-monEtage/nbEtageBranches);  
+    #declare rayonC2=(1-(1+monEtage)/nbEtageBranches);
+    
+   /* #declare P0=<rayonC,rayonC>;
+    #declare P1=<1*monEtage,1*monEtage>;
+    #declare P2=<0.5*monEtage,0.5*monEtage>;
+    #declare P3=<(rayonC2*(1-monEtage/nbEtageBranches)),(rayonC2*(1-monEtage/nbEtageBranches))>;  
+    #declare rayonGuirlande = 0.1; */          
+    
+    #declare theta=p*2*Pi/nbEtageBranches;
+    #declare P0=<1+monEtage,hauteurTronc+monEtage>;
+    #declare P1=<8+monEtage, 8+monEtage>;
+    #declare P2=<8+monEtage, -10+monEtage>;
+    #declare P3=<0, 3+monEtage>;
+      
    
     
-#end  */
-
-
-   
-   
- /*cylinder{tabPt[i] tabPt[i+1] rayBez pigment {color Black}
-  }    */        
+    #declare tab1[0]=P0;
+    #declare tab1[1]=P1;
+    #declare tab1[2]=P2;
+    #declare tab1[3]=P3;
+     
+     /*lathe
+     {
+          bezier_spline 
+          4 //nbr_Pt
+          tab1[0],tab1[1],
+          tab1[2],tab1[3]   
+          translate < 1,3,hauteurTronc+monEtage>
+          pigment {Green transmit .5} 
+     } */
+       
+        
+     #while (c<n+1)         
+             
+        #declare t0 = c/n;
+                       
+        #declare tabPt[c]=pow(1-t0,3)*tab1[0]+3*pow(1-t0,2)*t0*tab1[1]+3*(1-t0)*pow(t0,2)*tab1[2]+pow(t0,3)*tab1[3];
+        #declare c=c+1;
+     #end
+       
+     #while(p<n)   
+            
+            #declare theta=p*2*Pi/nbEtageBranches;            
+           
+            cylinder{
+                tabPt[p] 
+                tabPt[p+1] 
+                rayonGuirlande  
+                rotate<0,0,p>   
+                translate<0,0,monEtage*hauteurTronc*p>
+                pigment {color Blue}  
+                }
+            #declare p=p+1;
+     
+     #end
+     #declare monEtage=monEtage+1; 
+ #end
+  
+                                
