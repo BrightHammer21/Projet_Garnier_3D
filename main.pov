@@ -110,7 +110,7 @@ plane{
 #declare tab1[3]=P3;  
         
 #declare c=0;   
-#declare n=10;    
+#declare n=50;    
 #declare tabPt=array[n+1];     
      
 #declare p=0;  
@@ -236,36 +236,32 @@ plane{
                         
 object{         
     monSapin
-} 
+}  
         
 
 //mesGuirlandes  ////////////////////////////////////////
 /////////////////GUIRLANDE
                        
   
-
+ #declare monEtage =0;
  
  #while (monEtage<nbEtageBranches)
       
-    
-    //#declare rayonC=rayonCone*(1-monEtage/nbEtageBranches);  
-    //#declare rayonC2=(1-(1+monEtage)/nbEtageBranches);  
-    #declare rayon=rayonCone*(1-monEtage/nbEtageBranches); 
-    #declare monZ=monEtage*nbEtageBranches;
+    #declare rayon=rayonCone*(1-monEtage/nbEtageBranches) ;
+    #declare monZ=hauteurTronc+monEtage*rayonTronc;
     #declare theta=monEtage*2*Pi/nbBoulesSapin + rotation;
             
     
-  /*  #declare theta=p*2*Pi/nbEtageBranches;
+ /*  #declare theta=p*2*Pi/nbEtageBranches;
     #declare P0=<1+monEtage,hauteurTronc+monEtage>;
     #declare P1=<8+monEtage, 8+monEtage>;
     #declare P2=<8+monEtage, -10+monEtage>;
     #declare P3=<0, 3+monEtage>;           */
     
-     #declare theta2=monEtage*2*Pi/nbEtageBranches;
-    #declare P0=<rayon*(monEtage+3) * cos(theta), rayon*(monEtage+3) * sin(theta)>;
-    #declare P1=<rayon*(monEtage+3) * cos(theta+Pi/2), rayon*(monEtage+3) * sin(theta+Pi/2)-5>;
-    #declare P2=<rayon*(monEtage+3) * cos(theta+3*Pi/2), rayon*(monEtage+3) * sin(theta+3*Pi/2)-5>;
-    #declare P3=<rayon*(monEtage+3) * cos(theta+4*Pi/2), rayon*(monEtage+3) * sin(theta+4*Pi/2)>;
+    #declare P0=<rayon*(monEtage+3) * cos(theta), rayon*(monEtage+1) * sin(theta)>;
+    #declare P1=<rayon*(monEtage+3) * cos(theta+Pi/2), rayon*(monEtage+1) * sin(theta+Pi/2)-5>;
+    #declare P2=<rayon*(monEtage+3) * cos(theta+3*Pi/2), rayon*(monEtage+1) * sin(theta+3*Pi/2)-5>;
+    #declare P3=<rayon*(monEtage+3) * cos(theta+4*Pi/2), rayon*(monEtage+1) * sin(theta+4*Pi/2)+monEtage>;
       
    
     
@@ -292,19 +288,19 @@ object{
         #declare tabPt[c]=pow(1-t0,3)*tab1[0]+3*pow(1-t0,2)*t0*tab1[1]+3*(1-t0)*pow(t0,2)*tab1[2]+pow(t0,3)*tab1[3];
         #declare c=c+1;
      #end
-       
      #while(p<n)            
            
             cylinder{
                 tabPt[p] 
                 tabPt[p+1] 
                 rayonGuirlande   
-                translate<0,0,hauteurTronc+(monZ/2)+2> //+p presque tourbillon x)
+                translate<0,0,hauteurTronc+(monZ/2)+p*0.05> //+p presque tourbillon x)
                 pigment {color Blue}  
                 }             
             #declare p=p+1;   
      
-     #end
+     #end  
+     
      #declare monEtage=monEtage+1; 
  #end
   
