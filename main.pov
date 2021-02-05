@@ -18,7 +18,8 @@
 #declare sca=25;  
 
 camera{   
-    location <0.1*sca,1*sca,9>
+    location <0.1*sca,1*sca,9>  
+    //location <0,0,25>
     look_at <0,0,9>
     sky <0,0,1>
     right <-image_width/image_height,0,0>
@@ -236,20 +237,28 @@ plane{
                         
 object{         
     monSapin
-}  
+}   
         
 
 //mesGuirlandes  ////////////////////////////////////////
-/////////////////GUIRLANDE
-                       
-  
- #declare monEtage =0;
+/////////////////GUIRLANDE 
+
  
- #while (monEtage<nbEtageBranches)
+#declare tab2=array[4];   
+#declare tabPt2=array[n+1]; 
+
+                 
+#declare maGuirlande = object 
+{  
+ union {          
+ 
+ #declare i =0;
+// #for (i,0,nbEtageBranches)
       
-    #declare rayon=rayonCone*(1-monEtage/nbEtageBranches) ;
-    #declare monZ=hauteurTronc+monEtage*rayonTronc;
-    #declare theta=monEtage*2*Pi/nbBoulesSapin + rotation;
+    #declare rayon=rayonCone*(1-i/nbEtageBranches) ;
+    #declare monZ=hauteurTronc+i*rayonTronc;
+    #declare theta=i*2*Pi/nbBoulesSapin + rotation;
+        
             
     
  /*  #declare theta=p*2*Pi/nbEtageBranches;
@@ -258,18 +267,29 @@ object{
     #declare P2=<8+monEtage, -10+monEtage>;
     #declare P3=<0, 3+monEtage>;           */
     
-    #declare P0=<rayon*(monEtage+3) * cos(theta), rayon*(monEtage+1) * sin(theta)>;
-    #declare P1=<rayon*(monEtage+3) * cos(theta+Pi/2), rayon*(monEtage+1) * sin(theta+Pi/2)-5>;
-    #declare P2=<rayon*(monEtage+3) * cos(theta+3*Pi/2), rayon*(monEtage+1) * sin(theta+3*Pi/2)-5>;
-    #declare P3=<rayon*(monEtage+3) * cos(theta+4*Pi/2), rayon*(monEtage+1) * sin(theta+4*Pi/2)+monEtage>;
-      
+    #declare P0=<rayon*(-i+3) * cos(theta), rayon*(i+1) * sin(theta)>;
+    #declare P1=<rayon*(-i+3) * cos(theta+Pi/2), rayon*(i+1) * sin(theta+Pi/2)-5>;
+    #declare P2=<rayon*(-i+3) * cos(theta+3*Pi/2), rayon*(i+1) * sin(theta+3*Pi/2)-5>;
+    #declare P3=<rayon*(-i+3) * cos(theta+4*Pi/2), rayon*(i+1) * sin(theta+4*Pi/2)+i>;
+    
+    #declare M0=P3;
+    #declare M1=<10,-5>;//<rayon*(-i+3) * cos(theta-Pi/2), rayon*(i+3) * sin(theta-Pi/2)>;
+    #declare M2=<-5,-6>;//<rayon*(-i+3) * cos(theta-3*Pi/2), rayon*(i+3) * sin(theta-3*Pi/2)-5>;
+    #declare M3=<-3.5,1>; //<rayon*(-i+3) * cos(theta-3*Pi/2)-2, rayon*(i+3) * sin(theta-3*Pi/2)>;  
    
     
     #declare tab1[0]=P0;
     #declare tab1[1]=P1;
     #declare tab1[2]=P2;
-    #declare tab1[3]=P3;
-     
+    #declare tab1[3]=P3; 
+    
+    #declare tab2[0]=M0;
+    #declare tab2[1]=M1;
+    #declare tab2[2]=M2;
+    #declare tab2[3]=M3;
+    
+    
+         
      /*lathe
      {
           bezier_spline 
@@ -286,6 +306,8 @@ object{
         #declare t0 = c/n;
                        
         #declare tabPt[c]=pow(1-t0,3)*tab1[0]+3*pow(1-t0,2)*t0*tab1[1]+3*(1-t0)*pow(t0,2)*tab1[2]+pow(t0,3)*tab1[3];
+        #declare tabPt2[c]=pow(1-t0,3)*tab2[0]+3*pow(1-t0,2)*t0*tab2[1]+3*(1-t0)*pow(t0,2)*tab2[2]+pow(t0,3)*tab2[3];
+  
         #declare c=c+1;
      #end
      #while(p<n)            
@@ -293,15 +315,34 @@ object{
             cylinder{
                 tabPt[p] 
                 tabPt[p+1] 
-                rayonGuirlande   
-                translate<0,0,hauteurTronc+(monZ/2)+p*0.05> //+p presque tourbillon x)
+                rayonGuirlande  
+                rotate <0,0,p*0.5> 
+                translate<0,0,hauteurTronc+(monZ/2)-p*0.02+i> 
                 pigment {color Blue}  
-                }             
+                }            
+                
+             cylinder{
+                tabPt2[p] 
+                tabPt2[p+1] 
+                rayonGuirlande  
+                rotate <0,0,p*0.5> 
+                translate<0,0,hauteurTronc+(monZ/2)+p*0.05+i> 
+                pigment {color Red}  
+                }            
             #declare p=p+1;   
      
-     #end  
+     #end   
      
-     #declare monEtage=monEtage+1; 
- #end
-  
-                                
+     
+// #end
+      }  
+     } 
+      
+ 
+ object {
+ 
+    maGuirlande 
+    
+}     
+ 
+       
