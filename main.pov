@@ -248,20 +248,24 @@ object{
  #while (monEtage<nbEtageBranches)
       
     
-    #declare rayonC=rayonCone*(1-monEtage/nbEtageBranches);  
-    #declare rayonC2=(1-(1+monEtage)/nbEtageBranches);
+    //#declare rayonC=rayonCone*(1-monEtage/nbEtageBranches);  
+    //#declare rayonC2=(1-(1+monEtage)/nbEtageBranches);  
+    #declare rayon=rayonCone*(1-monEtage/nbEtageBranches); 
+    #declare monZ=monEtage*nbEtageBranches;
+    #declare theta=monEtage*2*Pi/nbBoulesSapin + rotation;
+            
     
-   /* #declare P0=<rayonC,rayonC>;
-    #declare P1=<1*monEtage,1*monEtage>;
-    #declare P2=<0.5*monEtage,0.5*monEtage>;
-    #declare P3=<(rayonC2*(1-monEtage/nbEtageBranches)),(rayonC2*(1-monEtage/nbEtageBranches))>;  
-    #declare rayonGuirlande = 0.1; */          
-    
-    #declare theta=p*2*Pi/nbEtageBranches;
+  /*  #declare theta=p*2*Pi/nbEtageBranches;
     #declare P0=<1+monEtage,hauteurTronc+monEtage>;
     #declare P1=<8+monEtage, 8+monEtage>;
     #declare P2=<8+monEtage, -10+monEtage>;
-    #declare P3=<0, 3+monEtage>;
+    #declare P3=<0, 3+monEtage>;           */
+    
+     #declare theta2=monEtage*2*Pi/nbEtageBranches;
+    #declare P0=<rayon*(monEtage+3) * cos(theta), rayon*(monEtage+3) * sin(theta)>;
+    #declare P1=<rayon*(monEtage+3) * cos(theta+Pi/2), rayon*(monEtage+3) * sin(theta+Pi/2)-5>;
+    #declare P2=<rayon*(monEtage+3) * cos(theta+3*Pi/2), rayon*(monEtage+3) * sin(theta+3*Pi/2)-5>;
+    #declare P3=<rayon*(monEtage+3) * cos(theta+4*Pi/2), rayon*(monEtage+3) * sin(theta+4*Pi/2)>;
       
    
     
@@ -289,19 +293,16 @@ object{
         #declare c=c+1;
      #end
        
-     #while(p<n)   
-            
-            #declare theta=p*2*Pi/nbEtageBranches;            
+     #while(p<n)            
            
             cylinder{
                 tabPt[p] 
                 tabPt[p+1] 
-                rayonGuirlande  
-                rotate<0,0,p>   
-                translate<0,0,monEtage*hauteurTronc*p>
+                rayonGuirlande   
+                translate<0,0,hauteurTronc+(monZ/2)+2> //+p presque tourbillon x)
                 pigment {color Blue}  
-                }
-            #declare p=p+1;
+                }             
+            #declare p=p+1;   
      
      #end
      #declare monEtage=monEtage+1; 
