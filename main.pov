@@ -8,7 +8,6 @@
 #include "stones1.inc"
 #include "skies.inc"   
 
-
 #declare Pi = 3.141592653589793384626;
 
 #declare axe=0;
@@ -277,7 +276,10 @@ plane{
     #declare tab22[1]=M1;
     #declare tab22[2]=M2;
     #declare tab22[3]=M3;
-      
+                            
+    #declare maCouleur1=Red;
+    #declare maCouleur2=Green;
+                   
         
      #while (c<n+1)         
              
@@ -287,31 +289,47 @@ plane{
         #declare tabPt22[c]=pow(1-t0,3)*tab22[0]+3*pow(1-t0,2)*t0*tab22[1]+3*(1-t0)*pow(t0,2)*tab22[2]+pow(t0,3)*tab22[3];
   
         #declare c=c+1;
-     #end 
+     #end   
+     
+    
      #declare p=0;    
      #while(p<n)            
-                 
-            
              #if(estElectrique)         
                  cylinder{
                     tabPt22[p] 
                     tabPt22[p+1] 
                     epaisseur  
-                    pigment {color coul}  
-                    rotate <0,0,180>               
-                    translate <0,4,0>
+                    pigment {color coul}                   
+                    translate <0,0,1>   
                  }         
-           
-             
-                sphere {
+                   
+                 #if(mod(10*clock,2)=0)   
+                        sphere {
                       
-                    < tabPt22[p].x, tabPt22[p].y ,tabPt22[p].z>
-                    0.2
-                    pigment {color BrightGold}    
+                        < tabPt22[p].x, tabPt22[p].y ,tabPt22[p].z>
+                        0.2    
+                        
+                        pigment {color maCouleur1}    
+                                                           
+                       translate <0,0,1>      
+                    } 
+                 #else 
+                     sphere {
+                      
+                        < tabPt22[p].x, tabPt22[p].y ,tabPt22[p].z>
+                        0.2    
+                        
+                        pigment {color maCouleur2}    
+                                                        
+                       translate <0,0,1>    
+                    }
+              
+                 #end
                     
-                    rotate <0,0,180>              
-                    translate <0,4,0>    
-                }
+              
+            
+             
+             
              
              #else 
                   cylinder{
@@ -333,22 +351,34 @@ plane{
                     tabPt1[j] 
                     tabPt1[j+1] 
                     epaisseur  
-                    pigment {color coul}
-                    rotate <0,0,180>                
-                    translate <0,4,0>
+                    pigment {color coul}                
+                    translate <0,0,1>   
                }            
                      
              
-                sphere {
+                   #if(mod(10*clock,2)=0)   
+                        sphere {
                       
-                    < tabPt1[j].x, tabPt1[j].y ,tabPt1[j].z>
-                    0.2   
-                    pigment {color BrightGold} 
-                    
-                    rotate <0,0,180>              
-                    translate <0,4,0>  
-                }              
-                
+                        < tabPt1[j].x, tabPt1[j].y ,tabPt1[j].z>
+                        0.2    
+                        
+                        pigment {color maCouleur1}    
+                                                            
+                       translate <0,0,1>     
+                    } 
+                 #else 
+                     sphere {
+                      
+                        < tabPt1[j].x, tabPt1[j].y ,tabPt1[j].z>
+                        0.2    
+                        
+                        pigment {color maCouleur2}    
+                                                           
+                       translate <0,0,1>     
+                    }
+              
+                 #end
+              
              
              #else 
                   cylinder{
@@ -373,8 +403,8 @@ plane{
 
        
 ////////////////////////////////////////////////////////CONSTRUCTION OBJET + guirlandes
-/*             
-            */     
+/*           */    
+               
                      
 object{         
     monSapin
@@ -392,6 +422,12 @@ constructionGuirlande(0.8, 0.1, 4, Pink, false)
                                                     
                                                     
                                                     
-constructionGuirlande(4, 0.1, 0, Blue, true)         
-constructionGuirlande(3, 0.1, 1, Cyan, true) 
- 
+constructionGuirlande(4, 0.1, 0, Black, true) 
+        
+constructionGuirlande(3.2, 0.1, 1, Black, true)    
+     
+constructionGuirlande(2.4, 0.1, 2, Black, true) 
+        
+constructionGuirlande(1.6, 0.1, 3, Black, true) 
+                                                   
+
