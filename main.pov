@@ -97,27 +97,10 @@ plane{
 #declare rayonBoulesSapin=0.3;  
 #declare rotation = (2*Pi/nbBoulesSapin)+1.05;  //pour placer les boules au milieu des branches
                    
-                   
-#declare P0=<rayonCone,rayonCone>;
-#declare P1=<1,1>;
-#declare P2=<0.5,0.5>;
-#declare P3=<(rayonCone*(1-i/nbEtageBranches)),(rayonCone*(1-i/nbEtageBranches))>;  
-#declare rayonGuirlande = 0.1;
 
-#declare tab1=array[4];
-#declare tab1[0]=P0;
-#declare tab1[1]=P1;
-#declare tab1[2]=P2;
-#declare tab1[3]=P3;  
-        
-#declare c=0;   
-#declare n=50;    
-#declare tabPt=array[n+1];     
-     
 #declare p=0;  
-#declare monEtage=0;  
-#declare rayonGuirlande = 0.1;              
-               
+#declare monEtage=0; 
+ 
                         
 #declare monSapin=object
 {
@@ -234,72 +217,63 @@ plane{
 
      
 
-                        
+/*                        
 object{         
     monSapin
-}   
+}   */
         
 
 //mesGuirlandes  ////////////////////////////////////////
 /////////////////GUIRLANDE 
+  
+#declare c=0;   
+#declare n=50; 
+    
+#declare rayonGuirlande = 0.1;
 
- 
+#declare tab1=array[4]; 
 #declare tab2=array[4];   
-#declare tabPt2=array[n+1]; 
+#declare tabPt=array[n+1];   
+#declare tabPt2=array[n+1];   
+
+              
+     
 
                  
 #declare maGuirlande = object 
 {  
  union {          
  
- #declare i =0;
-// #for (i,0,nbEtageBranches)
+    #declare i =0;
+
       
     #declare rayon=rayonCone*(1-i/nbEtageBranches) ;
     #declare monZ=hauteurTronc+i*rayonTronc;
     #declare theta=i*2*Pi/nbBoulesSapin + rotation;
         
-            
     
- /*  #declare theta=p*2*Pi/nbEtageBranches;
-    #declare P0=<1+monEtage,hauteurTronc+monEtage>;
-    #declare P1=<8+monEtage, 8+monEtage>;
-    #declare P2=<8+monEtage, -10+monEtage>;
-    #declare P3=<0, 3+monEtage>;           */
-    
-    #declare P0=<rayon*(-i+3) * cos(theta), rayon*(i+1) * sin(theta)>;
-    #declare P1=<rayon*(-i+3) * cos(theta+Pi/2), rayon*(i+1) * sin(theta+Pi/2)-5>;
-    #declare P2=<rayon*(-i+3) * cos(theta+3*Pi/2), rayon*(i+1) * sin(theta+3*Pi/2)-5>;
-    #declare P3=<rayon*(-i+3) * cos(theta+4*Pi/2), rayon*(i+1) * sin(theta+4*Pi/2)+i>;
-    
-    #declare M0=P3;
-    #declare M1=<10,-5>;//<rayon*(-i+3) * cos(theta-Pi/2), rayon*(i+3) * sin(theta-Pi/2)>;
-    #declare M2=<-5,-6>;//<rayon*(-i+3) * cos(theta-3*Pi/2), rayon*(i+3) * sin(theta-3*Pi/2)-5>;
-    #declare M3=<-3.5,1>; //<rayon*(-i+3) * cos(theta-3*Pi/2)-2, rayon*(i+3) * sin(theta-3*Pi/2)>;  
+    #declare P0=<2,0.5>;    //<rayon*(-i+3) * cos(theta), rayon*(i+1) * sin(theta)>;
+    #declare P1=<1.2,1.5>;  //<rayon*(-i+3) * cos(theta+Pi/2), rayon*(i+1) * sin(theta+Pi/2)-5>;
+    #declare P2=<-1.5,2>;  //<rayon*(-i+3) * cos(theta+3*Pi/2), rayon*(i+1) * sin(theta+3*Pi/2)-5>;
+    #declare P3=<-2,0.2>;  //<rayon*(-i+3) * cos(theta+4*Pi/2), rayon*(i+1) * sin(theta+4*Pi/2)+i>;
+
+   
+    #declare M0=<1,0>;
+    #declare M1=<1,-2>;      //<rayon*(-i+3) * cos(theta-Pi/2), rayon*(i+3) * sin(theta-Pi/2)>;
+    #declare M2=<-1.9,-1.4>; //<rayon*(-i+3) * cos(theta-3*Pi/2), rayon*(i+3) * sin(theta-3*Pi/2)-5>;
+    #declare M3=P3;         //<rayon*(-i+3) * cos(theta-3*Pi/2)-2, rayon*(i+3) * sin(theta-3*Pi/2)>;  
    
     
     #declare tab1[0]=P0;
     #declare tab1[1]=P1;
     #declare tab1[2]=P2;
-    #declare tab1[3]=P3; 
+    #declare tab1[3]=P3;    
     
     #declare tab2[0]=M0;
     #declare tab2[1]=M1;
     #declare tab2[2]=M2;
     #declare tab2[3]=M3;
-    
-    
-         
-     /*lathe
-     {
-          bezier_spline 
-          4 //nbr_Pt
-          tab1[0],tab1[1],
-          tab1[2],tab1[3]   
-          translate < 1,3,hauteurTronc+monEtage>
-          pigment {Green transmit .5} 
-     } */
-       
+      
         
      #while (c<n+1)         
              
@@ -326,15 +300,13 @@ object{
                 tabPt2[p+1] 
                 rayonGuirlande  
                 rotate <0,0,p*0.5> 
-                translate<0,0,hauteurTronc+(monZ/2)+p*0.05+i> 
+                translate<0,0,hauteurTronc+(monZ/2)-p*0.02+i> 
                 pigment {color Red}  
                 }            
             #declare p=p+1;   
      
      #end   
      
-     
-// #end
       }  
      } 
       
