@@ -335,15 +335,15 @@ plane{
         
     
     #declare P0=<rayonCone,0>;  
-    #declare P1=<2,3>;  
-    #declare P2=<-2,3.2>; 
-    #declare P3=<-1.9,-0.2>;  
+    #declare P1=<-2,-3>;  
+    #declare P2=<-2,0>; 
+    #declare P3=<0,rayonCone/2>;  
 
    
-    #declare M0=<0,0>;
-    #declare M1=<0.8,-1>;      
-    #declare M2=<-2,-2>; 
-    #declare M3=P3;         
+    #declare M0=P3;
+    #declare M1=<rayonCone,rayonCone/2>;      
+    #declare M2=<2,-rayonCone>; 
+    #declare M3=<0,0>;         
    
     
     #declare tab12[0]=P0;
@@ -366,7 +366,6 @@ plane{
   
         #declare c=c+1;
      #end     
-             #declare test=n-1;
      #while(p<n)            
                  
                 
@@ -374,24 +373,27 @@ plane{
                 tabPt22[p] 
                 tabPt22[p+1] 
                 rayonGuirlande  
-                rotate <0,0,p*0.5> 
-                translate<0,1,zSommet/1.5-p*0.05> 
+                //rotate <0,0,p*0.5> 
+                translate<0,0,zSommet/2+p*0.08> 
                 pigment {color Yellow}  
                 }    
                 
                 
-            #declare p=p+1;   
-            #declare test=zSommet/1.5-p*0.05;
+                
+              
+            #declare test=zSommet/2+p*0.08;        
+            #declare p=p+1; 
      
-     #end 
+     #end   
+     #declare j=0;
      #while(j<n)            
            
             cylinder{
                 tabPt1[j] 
                 tabPt1[j+1] 
                 rayonGuirlande  
-                rotate <0,0,p*0.5> 
-                translate<0,1,test-j*0.05> 
+                //rotate <0,0,p*0.5> 
+                translate<-3.3,3,test-2*j*0.08-3.9> 
                 pigment {color Green}  
                 }            
                 
@@ -409,15 +411,15 @@ plane{
        
        
 ////////////////////////////////////////////////////////CONSTRUCTION OBJET
-/*                       
+/*           */            
 object{         
     monSapin
 }  
-
+          
 object {  
     maGuirlande      
-} 
-     */     
+}             
+                
        
 object {
  
