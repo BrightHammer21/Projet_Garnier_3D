@@ -217,14 +217,13 @@ plane{
 
      
 
-/*                        
-object{         
-    monSapin
-}   */
+ 
         
 
 //mesGuirlandes  ////////////////////////////////////////
-/////////////////GUIRLANDE 
+/////////////////GUIRLANDE   
+
+
   
 #declare c=0;   
 #declare n=50; 
@@ -291,7 +290,7 @@ object{
                 tabPt[p+1] 
                 rayonGuirlande  
                 rotate <0,0,p*0.5> 
-                translate<0,0,hauteurTronc+(monZ/2)-p*0.02+i> 
+                translate<0,1,hauteurTronc+(monZ*1.4)+p*0.02+i> 
                 pigment {color Blue}  
                 }            
                 
@@ -300,21 +299,128 @@ object{
                 tabPt2[p+1] 
                 rayonGuirlande  
                 rotate <0,0,p*0.5> 
-                translate<0,0,hauteurTronc+(monZ/2)-p*0.02+i> 
+                translate<0,1,hauteurTronc+(monZ*1.4)+p*0.02+i> 
                 pigment {color Red}  
                 }            
             #declare p=p+1;   
      
      #end   
      
-      }  
-     } 
+   }  
+} 
       
  
- object {
+
+//////////////////////Test 2
+//<0,0,hauteurTronc+(i*3)> (rayonCone*(1-i/nbEtageBranches)) 
+//nbEtageBranches
+#declare zSommet = hauteurTronc*nbEtageBranches+(monZ*1.4);
+#declare c=0;
+#declare p=0;    
+#declare n=50;    
+
+#declare tab12=array[4]; 
+#declare tab22=array[4];   
+#declare tabPt1=array[n+1];   
+#declare tabPt22=array[n+1];   
+
+
+
+#declare maGuirlande2 = object 
+{  
+ union {          
  
-    maGuirlande 
+
+    #declare monZ=hauteurTronc+rayonTronc;
+        
     
-}     
- 
+    #declare P0=<rayonCone,0>;  
+    #declare P1=<2,3>;  
+    #declare P2=<-2,3.2>; 
+    #declare P3=<-1.9,-0.2>;  
+
+   
+    #declare M0=<0,0>;
+    #declare M1=<0.8,-1>;      
+    #declare M2=<-2,-2>; 
+    #declare M3=P3;         
+   
+    
+    #declare tab12[0]=P0;
+    #declare tab12[1]=P1;
+    #declare tab12[2]=P2;
+    #declare tab12[3]=P3;    
+    
+    #declare tab22[0]=M0;
+    #declare tab22[1]=M1;
+    #declare tab22[2]=M2;
+    #declare tab22[3]=M3;
+      
+        
+     #while (c<n+1)         
+             
+        #declare t0 = c/n;
+                       
+        #declare tabPt1[c]=pow(1-t0,3)*tab12[0]+3*pow(1-t0,2)*t0*tab12[1]+3*(1-t0)*pow(t0,2)*tab12[2]+pow(t0,3)*tab12[3];
+        #declare tabPt22[c]=pow(1-t0,3)*tab22[0]+3*pow(1-t0,2)*t0*tab22[1]+3*(1-t0)*pow(t0,2)*tab22[2]+pow(t0,3)*tab22[3];
+  
+        #declare c=c+1;
+     #end     
+             #declare test=n-1;
+     #while(p<n)            
+                 
+                
+             cylinder{
+                tabPt22[p] 
+                tabPt22[p+1] 
+                rayonGuirlande  
+                rotate <0,0,p*0.5> 
+                translate<0,1,zSommet/1.5-p*0.05> 
+                pigment {color Yellow}  
+                }    
+                
+                
+            #declare p=p+1;   
+            #declare test=zSommet/1.5-p*0.05;
+     
+     #end 
+     #while(j<n)            
+           
+            cylinder{
+                tabPt1[j] 
+                tabPt1[j+1] 
+                rayonGuirlande  
+                rotate <0,0,p*0.5> 
+                translate<0,1,test-j*0.05> 
+                pigment {color Green}  
+                }            
+                
+           
+           #declare j=j+1;    
+     
+     #end   
+     
+     
+             
+     
+      }  
+} 
+           
        
+       
+////////////////////////////////////////////////////////CONSTRUCTION OBJET
+/*                       
+object{         
+    monSapin
+}  
+
+object {  
+    maGuirlande      
+} 
+     */     
+       
+object {
+ 
+    maGuirlande2 
+    
+}   
