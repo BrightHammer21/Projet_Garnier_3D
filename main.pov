@@ -324,7 +324,7 @@ plane{
 #declare tabPt1=array[n+1];   
 #declare tabPt22=array[n+1];   
 
-
+       /*
 
 #declare maGuirlande2 = object 
 {  
@@ -334,16 +334,16 @@ plane{
     #declare monZ=hauteurTronc+rayonTronc;
         
     
-    #declare P0=<rayonCone,0>;  
-    #declare P1=<-2,-3>;  
-    #declare P2=<-2,0>; 
-    #declare P3=<0,rayonCone/2>;  
+    #declare P0=<rayonCone,1,hauteurTronc>;  
+    #declare P1=<-rayonCone,-rayonCone+1,hauteurTronc+0.5>;  
+    #declare P2=<-5,4+1,hauteurTronc+1>; 
+    #declare P3=<0,rayonCone,hauteurTronc+1.5>;  
 
    
     #declare M0=P3;
-    #declare M1=<rayonCone,rayonCone/2>;      
-    #declare M2=<2,-rayonCone>; 
-    #declare M3=<0,0>;         
+    #declare M1=<rayonCone,3,hauteurTronc+2>;      
+    #declare M2=<4,1,hauteurTronc+2.5>; 
+    #declare M3=<0,0,hauteurTronc+2.7>;         
    
     
     #declare tab12[0]=P0;
@@ -374,7 +374,7 @@ plane{
                 tabPt22[p+1] 
                 rayonGuirlande  
                 //rotate <0,0,p*0.5> 
-                translate<0,0,zSommet/2+p*0.08> 
+                //translate<0,0,zSommet/2+p*0.08> 
                 pigment {color Yellow}  
                 }    
                 
@@ -393,7 +393,7 @@ plane{
                 tabPt1[j+1] 
                 rayonGuirlande  
                 //rotate <0,0,p*0.5> 
-                translate<-3.3,3,test-2*j*0.08-3.9> 
+                //translate<-3.3,3,test-2*j*0.08-3.9> 
                 pigment {color Green}  
                 }            
                 
@@ -408,14 +408,14 @@ plane{
       }  
 } 
            
-       
+                */
        
 ////////////////////////////////////////////////////////CONSTRUCTION OBJET
-/*           */            
+/*           */           
 object{         
     monSapin
-}  
-          
+}             
+ /*            
 object {  
     maGuirlande      
 }             
@@ -423,6 +423,91 @@ object {
        
 object {
  
-    maGuirlande2 
+    maGuirlande2    
+   //rotate<0,0,90>
+   // translate<0,3,0>
     
-}   
+}  */ 
+
+#macro constructionGuirlande(rayonEtageCone, epaisseur, numEtage, coul)
+    #declare c=0;   
+    #declare n=50;    
+    
+    #declare tab12=array[4]; 
+    #declare tab22=array[4];   
+    #declare tabPt1=array[n+1];   
+    #declare tabPt22=array[n+1];   
+
+    #declare P0=<0,0,hauteurTronc*numEtage+hauteurTronc>;  
+    #declare P1=<-rayonEtageCone,-rayonEtageCone+1,hauteurTronc*numEtage+0.5+hauteurTronc>;  
+    #declare P2=<-5,rayonEtageCone+1,hauteurTronc*numEtage+1+hauteurTronc>; 
+    #declare P3=<0,rayonEtageCone,hauteurTronc*numEtage+1.5+hauteurTronc>;  
+
+   
+    #declare M0=P3;
+    #declare M1=<rayonEtageCone,3,hauteurTronc*numEtage+2+hauteurTronc>;      
+    #declare M2=<rayonEtageCone,1,hauteurTronc*numEtage+2.5+hauteurTronc>; 
+    #declare M3=<0,0,hauteurTronc*numEtage+3+hauteurTronc>;         
+   
+    
+    #declare tab12[0]=P0;
+    #declare tab12[1]=P1;
+    #declare tab12[2]=P2;
+    #declare tab12[3]=P3;    
+    
+    #declare tab22[0]=M0;
+    #declare tab22[1]=M1;
+    #declare tab22[2]=M2;
+    #declare tab22[3]=M3;
+      
+        
+     #while (c<n+1)         
+             
+        #declare t0 = c/n;
+                       
+        #declare tabPt1[c]=pow(1-t0,3)*tab12[0]+3*pow(1-t0,2)*t0*tab12[1]+3*(1-t0)*pow(t0,2)*tab12[2]+pow(t0,3)*tab12[3];
+        #declare tabPt22[c]=pow(1-t0,3)*tab22[0]+3*pow(1-t0,2)*t0*tab22[1]+3*(1-t0)*pow(t0,2)*tab22[2]+pow(t0,3)*tab22[3];
+  
+        #declare c=c+1;
+     #end 
+     #declare p=0;    
+     #while(p<n)            
+                 
+                
+             cylinder{
+                tabPt22[p] 
+                tabPt22[p+1] 
+                epaisseur  
+                pigment {color coul}  
+             }    
+                                                     
+            #declare p=p+1; 
+     
+     #end   
+     #declare j=0;
+     #while(j<n)            
+           
+            cylinder{
+                tabPt1[j] 
+                tabPt1[j+1] 
+                epaisseur  
+                pigment {color coul}  
+           }            
+                
+           #declare j=j+1;    
+     
+     #end   
+ 
+
+#end    
+
+
+constructionGuirlande(4, 0.1 , 0, Green)     
+
+constructionGuirlande(3.2, 0.1, 1, Red)  
+
+constructionGuirlande(2.4, 0.1, 2, Yellow) 
+
+constructionGuirlande(1.6, 0.1,3, Orange)    
+
+constructionGuirlande(0.8, 0.1, 4, Pink) 
