@@ -18,10 +18,10 @@
 #declare sca=25;  
 
 camera{   
-    //location <0.1*sca,1*sca,9>  
-    location <10,10,2>   
+    location <0.1*sca,1*sca,9>  
+    //location <10,10,2>   
     //location <0,0,25>
-    look_at <-6,-6,9>      //0,0,9
+    look_at <0,0,9>      //0,0,9
     sky <0,0,1>
     right <-image_width/image_height,0,0>
 }
@@ -330,7 +330,8 @@ plane{
 
 
 
-#macro constructionGuirlande(rayonEtageCone, epaisseur, numEtage, coul, estElectrique)
+#macro constructionGuirlande(rayonEtageCone, epaisseur, numEtage, coul, estElectrique) 
+    #declare rayonEtageCone=rayonEtageCone+1;
     #declare c=0;   
     #declare n=5;    
     
@@ -338,7 +339,19 @@ plane{
     #declare tab22=array[4];   
     #declare tabPt1=array[n+1];   
     #declare tabPt22=array[n+1];   
+        
+    #declare P0=<0                  ,-rayonEtageCone+1.5    ,hauteurTronc*numEtage+hauteurTronc>;  
+    #declare P1=<-rayonEtageCone+1.5,-rayonEtageCone  ,hauteurTronc*numEtage+0.5+hauteurTronc>;  
+    #declare P2=<-rayonEtageCone    ,rayonEtageCone-1   ,hauteurTronc*numEtage+1+hauteurTronc>; 
+    #declare P3=<0                  ,rayonEtageCone-1     ,hauteurTronc*numEtage+1.5+hauteurTronc>;  
 
+   
+    #declare M0=P3;
+    #declare M1=<rayonEtageCone     ,rayonEtageCone-1   ,hauteurTronc*numEtage+2+hauteurTronc>;      
+    #declare M2=<rayonEtageCone-1.5 ,-rayonEtageCone  ,hauteurTronc*numEtage+2.5+hauteurTronc>; 
+    #declare M3=<0                  ,-rayonEtageCone+1.5    ,hauteurTronc*numEtage+3+hauteurTronc>;   
+     
+     /*
     #declare P0=<0,0,hauteurTronc*numEtage+hauteurTronc>;  
     #declare P1=<-rayonEtageCone,-rayonEtageCone+1,hauteurTronc*numEtage+0.5+hauteurTronc>;  
     #declare P2=<-5,rayonEtageCone+1,hauteurTronc*numEtage+1+hauteurTronc>; 
@@ -349,7 +362,7 @@ plane{
     #declare M1=<rayonEtageCone,3,hauteurTronc*numEtage+2+hauteurTronc>;      
     #declare M2=<rayonEtageCone,1,hauteurTronc*numEtage+2.5+hauteurTronc>; 
     #declare M3=<0,0,hauteurTronc*numEtage+3+hauteurTronc>;         
-   
+     */
     
     #declare tab12[0]=P0;
     #declare tab12[1]=P1;
@@ -487,14 +500,14 @@ plane{
 
        
 ////////////////////////////////////////////////////////CONSTRUCTION OBJET + guirlandes
-/*           */    
+/* */           
                
                      
 object{         
-    monSapin
-}                
+    monSapin 
+    rotate <0,0,-30>
+}    
 
-/*  
 constructionGuirlande(4, 0.1 , 0, Green, false)    
 
 constructionGuirlande(3.2, 0.1, 1, Red, false)   
@@ -503,11 +516,12 @@ constructionGuirlande(2.4, 0.1, 2, Yellow, false)
 
 constructionGuirlande(1.6, 0.1,3, Orange, false)    
 
-constructionGuirlande(0.8, 0.1, 4, Pink, false)  
+constructionGuirlande(0.8, 0.1, 4, Pink, false)
+                                                 
+                                                                                                      
                                                     
                                                     
-                                                    
-                                                    
+ /*                                                     
 constructionGuirlande(4, 0.1, 0, Black, true) 
         
 constructionGuirlande(3.2, 0.1, 1, Black, true)    
