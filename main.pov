@@ -335,34 +335,38 @@ plane{
     #declare c=0;   
     #declare n=5;    
     
-    #declare tab12=array[4]; 
-    #declare tab22=array[4];   
-    #declare tabPt1=array[n+1];   
-    #declare tabPt22=array[n+1];   
-       
-         
-    #declare P0=<0                  ,-rayonEtageCone+1    ,hauteurTronc*numEtage+hauteurTronc>;  
-    #declare P1=<-rayonEtageCone+1  ,-rayonEtageCone+1    ,hauteurTronc*numEtage+0.5+hauteurTronc>;  
-    #declare P2=<-rayonEtageCone    ,rayonEtageCone-1     ,hauteurTronc*numEtage+1+hauteurTronc>; 
-    #declare P3=<0                  ,rayonEtageCone-1     ,hauteurTronc*numEtage+1.5+hauteurTronc>;  
 
-   
-    #declare M0=P3;
-    #declare M1=<rayonEtageCone-1    ,rayonEtageCone-1.1   ,hauteurTronc*numEtage+2+hauteurTronc>;      
-    #declare M2=<rayonEtageCone-2   ,-rayonEtageCone+2.5  ,hauteurTronc*numEtage+2.5+hauteurTronc>; 
-    #declare M3=<0                  ,0                   ,hauteurTronc*numEtage+3+hauteurTronc>;   
-     
-         
+    #declare tab12=array[5];
+    #declare tab22=array[5];
+    #declare tabPt1=array[n+1];
+    #declare tabPt22=array[n+1];   
+    
+    #declare P0=<0                      ,-rayonEtageCone+1  ,hauteurTronc*numEtage+0.33+hauteurTronc>;
+    #declare P1=<-rayonEtageCone+1.2    ,-rayonEtageCone+1  ,hauteurTronc*numEtage+0.66+hauteurTronc>;
+    #declare P2=<-rayonEtageCone        ,0                  ,hauteurTronc*numEtage+1+hauteurTronc>;
+    #declare P3=<-rayonEtageCone+1.2    ,rayonEtageCone-1   ,hauteurTronc*numEtage+1.33+hauteurTronc>;
+    #declare P4=<0                      ,rayonEtageCone-1    ,hauteurTronc*numEtage+1.66+hauteurTronc>;
+    
+    #declare M0=P4;
+    #declare M1=<rayonEtageCone-1.5     ,rayonEtageCone-1       ,hauteurTronc*numEtage+2+hauteurTronc>;
+    #declare M2=<rayonEtageCone-1       ,rayonEtageCone-4       ,hauteurTronc*numEtage+2.33+hauteurTronc>;
+    #declare M3=<rayonEtageCone-3       ,-rayonEtageCone+2.5    ,hauteurTronc*numEtage+2.66+hauteurTronc>;
+    #declare M4=<0                      ,0                      ,hauteurTronc*numEtage+3+hauteurTronc>;
+    
     
     #declare tab12[0]=P0;
     #declare tab12[1]=P1;
     #declare tab12[2]=P2;
-    #declare tab12[3]=P3;    
+    #declare tab12[3]=P3;
+    #declare tab12[4]=P4; 
     
     #declare tab22[0]=M0;
     #declare tab22[1]=M1;
     #declare tab22[2]=M2;
     #declare tab22[3]=M3;
+    #declare tab22[4]=M4;
+   
+
                             
     #declare maCouleur1=Red;
     #declare maCouleur2=Green;
@@ -370,11 +374,11 @@ plane{
         
      #while (c<n+1)         
              
-        #declare t0 = c/n;
-                       
-        #declare tabPt1[c]=pow(1-t0,3)*tab12[0]+3*pow(1-t0,2)*t0*tab12[1]+3*(1-t0)*pow(t0,2)*tab12[2]+pow(t0,3)*tab12[3];
-        #declare tabPt22[c]=pow(1-t0,3)*tab22[0]+3*pow(1-t0,2)*t0*tab22[1]+3*(1-t0)*pow(t0,2)*tab22[2]+pow(t0,3)*tab22[3];
-  
+        #declare t0 = c/n;                        
+         
+        #declare tabPt1[c]=pow(1-t0,4)*tab12[0]+4*pow(1-t0,3)*t0*tab12[1]+6*pow(1-t0,2)*pow(t0,2)*tab12[2]+4*pow(t0,3)*(1-t0)*tab12[3]+pow(t0,4)*tab12[4];
+        #declare tabPt22[c]=pow(1-t0,4)*tab22[0]+4*pow(1-t0,3)*t0*tab22[1]+6*pow(1-t0,2)*pow(t0,2)*tab22[2]+4*pow(t0,3)*(1-t0)*tab22[3]+pow(t0,4)*tab22[4];
+        
         #declare c=c+1;
      #end   
      
@@ -485,7 +489,204 @@ plane{
 
  
 
-#end    
+#end      
+
+
+#macro constructionGuirlandeElectrique(rayonEtageCone, epaisseur, numEtage, coul) 
+                                     
+    #declare rot=110;
+    #declare tZ=0.4;                                 
+    #declare rayonEtageCone=rayonEtageCone+1;
+    #declare c=0;   
+    #declare n=5;    
+    
+    #declare tab12=array[3]; 
+    #declare tab22=array[3];  
+    #declare tab33=array[3];   
+    
+    #declare tabPt1=array[n+1];   
+    #declare tabPt22=array[n+1];   
+    #declare tabPt33=array[n+1]; 
+       
+         
+    #declare P0=<0                   ,0                    ,hauteurTronc*numEtage+2.4+hauteurTronc>;
+    #declare P1=<-rayonEtageCone+4.5   ,rayonEtageCone-4   ,hauteurTronc*numEtage+2+hauteurTronc>;
+    #declare P2=<rayonEtageCone-4.2    ,rayonEtageCone-3   ,hauteurTronc*numEtage+1.6+hauteurTronc>; 
+   
+   
+    #declare M0=P2;
+    #declare M1= <rayonEtageCone-1  ,rayonEtageCone-2    ,hauteurTronc*numEtage+1.2+hauteurTronc>;   
+    #declare M2= <rayonEtageCone-1  ,0                   ,hauteurTronc*numEtage+hauteurTronc+0.8>;  
+        
+    #declare N0=M2;
+    #declare N1= <rayonEtageCone-1  ,-rayonEtageCone+1    ,hauteurTronc*numEtage+0.4+hauteurTronc>;   
+    #declare N2= <0                 ,-rayonEtageCone+1   ,hauteurTronc*numEtage+hauteurTronc>;  
+        
+       
+    
+    #declare tab12[0]=P0;
+    #declare tab12[1]=P1;
+    #declare tab12[2]=P2;    
+    
+    #declare tab22[0]=M0;
+    #declare tab22[1]=M1;
+    #declare tab22[2]=M2; 
+    
+    
+    #declare tab33[0]=N0;
+    #declare tab33[1]=N1;
+    #declare tab33[2]=N2;
+                            
+    #declare maCouleur1=White;
+    #declare maCouleur2=Blue;
+                   
+        
+     #while (c<n+1)         
+             
+        #declare t0 = c/n;
+                       
+        #declare tabPt1[c]=pow(1-t0,2)*tab12[0]+2*(1-t0)*t0*tab12[1]+pow(t0,2)*tab12[2];
+        #declare tabPt22[c]=pow(1-t0,2)*tab22[0]+2*(1-t0)*t0*tab22[1]+pow(t0,2)*tab22[2];
+        #declare tabPt33[c]=pow(1-t0,2)*tab33[0]+2*(1-t0)*t0*tab33[1]+pow(t0,2)*tab33[2];
+  
+        #declare c=c+1;
+     #end 
+     
+     #declare o=0;
+     #while(o<n)            
+           
+               cylinder{
+                    tabPt33[o] 
+                    tabPt33[o+1] 
+                    epaisseur  
+                    pigment {color coul}  
+                    rotate<0,0,rot>
+                    translate<0,0,tZ>               
+                      
+               }            
+                     
+             
+                 #if((mod(10*clock,2)=0) & ((o=3))) 
+                        sphere {
+                      
+                        < tabPt33[o].x, tabPt33[o].y ,tabPt33[o].z>
+                        0.2    
+                        
+                        pigment {color maCouleur1}    
+                        rotate<0,0,rot>
+                        translate<0,0,tZ>                                    
+                          
+                    } 
+                 #elseif((mod(10*clock,2)!=0) &(o=3) )
+                     sphere {
+                      
+                        < tabPt33[o].x, tabPt33[o].y ,tabPt33[o].z>
+                        0.2    
+                        
+                        pigment {color maCouleur2}    
+                        rotate<0,0,rot> 
+                        translate<0,0,tZ>                                    
+                        
+                    }
+              
+                 #end
+              
+                       
+                       
+           #declare o=o+1; 
+     
+     #declare p=0;    
+     #while(p<n)            
+                
+                 cylinder{
+                    tabPt22[p] 
+                    tabPt22[p+1] 
+                    epaisseur  
+                    pigment {color coul} 
+                    rotate<0,0,rot>
+                    translate<0,0,tZ>     
+                 }         
+                   
+                 #if((mod(10*clock,2)=0) & ((p=3)))  
+                        sphere {
+                      
+                        < tabPt22[p].x, tabPt22[p].y ,tabPt22[p].z>
+                        0.2    
+                        
+                        pigment {color maCouleur1}    
+                        rotate<0,0,rot>
+                        translate<0,0,tZ>                                     
+                        
+                    } 
+                 #elseif((mod(10*clock,2)!=0) & (p=3)) 
+                     sphere {
+                      
+                        < tabPt22[p].x, tabPt22[p].y ,tabPt22[p].z>
+                        0.2    
+                        
+                        pigment {color maCouleur2}    
+                        rotate<0,0,rot>
+                        translate<0,0,tZ>                                 
+                        
+                    }
+              
+                 #end                      
+                                         
+            #declare p=p+1; 
+     
+     #end   
+     #declare j=0;
+     #while(j<n)            
+           
+               cylinder{
+                    tabPt1[j] 
+                    tabPt1[j+1] 
+                    epaisseur  
+                    pigment {color coul}  
+                    rotate<0,0,rot>
+                    translate<0,0,tZ>                
+                   
+               }            
+                     
+             
+                 #if((mod(10*clock,2)=0) & ((j=3)))   
+                        sphere {
+                      
+                        < tabPt1[j].x, tabPt1[j].y ,tabPt1[j].z>
+                        0.2    
+                        
+                        pigment {color maCouleur1}    
+                        rotate<0,0,rot>
+                        translate<0,0,tZ>                                    
+                          
+                    } 
+                 #elseif((mod(10*clock,2)!=0) & (j=3)) 
+                     sphere {
+                      
+                        < tabPt1[j].x, tabPt1[j].y ,tabPt1[j].z>
+                        0.2    
+                        
+                        pigment {color maCouleur2}    
+                        rotate<0,0,rot>
+                        translate<0,0,tZ>                                     
+                         
+                    }
+              
+                 #end
+              
+                       
+                       
+           #declare j=j+1;    
+     
+     #end    
+     
+     
+       
+     
+     #end  
+     
+     
+#end
 
    
 ////////////////////////////////////////////////////////////COULEURS
@@ -701,32 +902,32 @@ plane{
 
        
 ////////////////////////////////////////////////////////CONSTRUCTION OBJET + guirlandes
-/*      */   
-              
+/*           */
                      
 object{         
     monSapin 
     rotate <0,0,-30>
-}            
+}              
+            
         
         
 #declare i = 0 ;
 #declare col=Red;
-#declare Random_1 = seed (6666);
-/*#for (i, 0, nbEtageBranches-2)
+#declare Random_1 = seed (169); /*     */
+#for (i, 0, nbEtageBranches-2)
      
     choixCouleur(int(99*rand( Random_1)), col)
     constructionGuirlande(4-i*0.8, 0.1 , i, col, false)
 
 
-#end */ 
+#end    
 
-#for (i, 0, nbEtageBranches-3)
+#for (i, 0, (nbEtageBranches-1)/(nbEtageBranches/2))
  
-    constructionGuirlande(4-i*0.8, 0.1 , i, Yellow, true)
+    constructionGuirlandeElectrique(4-i*0.8, 0.1 , i, Orange) 
+    
 
-#end         
-                                                
+#end                                        
                                                     
 
                                                    
