@@ -51,7 +51,7 @@ global_settings{
     #end
 }
 
-#declare ciel=1;
+#declare ciel=0;
 #if (ciel)
     sky_sphere {S_Cloud5 rotate <90,0.051, 1>}
 #end  
@@ -339,19 +339,20 @@ plane{
     #declare tab22=array[4];   
     #declare tabPt1=array[n+1];   
     #declare tabPt22=array[n+1];   
-        
+       
+         
     #declare P0=<0                  ,-rayonEtageCone+1    ,hauteurTronc*numEtage+hauteurTronc>;  
-    #declare P1=<-rayonEtageCone+1,-rayonEtageCone+1  ,hauteurTronc*numEtage+0.5+hauteurTronc>;  
-    #declare P2=<-rayonEtageCone    ,rayonEtageCone-1   ,hauteurTronc*numEtage+1+hauteurTronc>; 
+    #declare P1=<-rayonEtageCone+1  ,-rayonEtageCone+1    ,hauteurTronc*numEtage+0.5+hauteurTronc>;  
+    #declare P2=<-rayonEtageCone    ,rayonEtageCone-1     ,hauteurTronc*numEtage+1+hauteurTronc>; 
     #declare P3=<0                  ,rayonEtageCone-1     ,hauteurTronc*numEtage+1.5+hauteurTronc>;  
 
    
     #declare M0=P3;
-    #declare M1=<rayonEtageCone     ,rayonEtageCone-1   ,hauteurTronc*numEtage+2+hauteurTronc>;      
-    #declare M2=<rayonEtageCone-1   ,-rayonEtageCone+1  ,hauteurTronc*numEtage+2.5+hauteurTronc>; 
-    #declare M3=<0                  ,-rayonEtageCone+1   ,hauteurTronc*numEtage+3+hauteurTronc>;   
+    #declare M1=<rayonEtageCone-1    ,rayonEtageCone-1.1   ,hauteurTronc*numEtage+2+hauteurTronc>;      
+    #declare M2=<rayonEtageCone-2   ,-rayonEtageCone+2.5  ,hauteurTronc*numEtage+2.5+hauteurTronc>; 
+    #declare M3=<0                  ,0                   ,hauteurTronc*numEtage+3+hauteurTronc>;   
      
-  
+         
     
     #declare tab12[0]=P0;
     #declare tab12[1]=P1;
@@ -423,7 +424,7 @@ plane{
                     tabPt22[p+1] 
                     epaisseur  
                     pigment {color coul}  
-                       
+                      
                  }   
                    
              #end
@@ -702,18 +703,18 @@ plane{
 
        
 ////////////////////////////////////////////////////////CONSTRUCTION OBJET + guirlandes
-/*         
-          */        
+/*      */   
+              
                      
 object{         
     monSapin 
     rotate <0,0,-30>
-}      
+}            
         
         
 #declare i = 0 ;
 #declare col=Red;
-#declare Random_1 = seed (1153);
+#declare Random_1 = seed (6666);
 #for (i, 0, nbEtageBranches-2)
 
 
