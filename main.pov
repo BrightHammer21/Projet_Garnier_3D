@@ -51,7 +51,7 @@ global_settings{
     #end
 }
 
-#declare ciel=0;
+#declare ciel=1;
 #if (ciel)
     sky_sphere {S_Cloud5 rotate <90,0.051, 1>}
 #end  
@@ -63,9 +63,9 @@ plane{
         texture{
             pigment{  
             
-                //brick color  GreenCopper,
-                //color PaleGreen mortar 5 brick_size 50        
-                color White             
+                brick color  GreenCopper,
+                color PaleGreen mortar 5 brick_size 50        
+                //color White             
             } 
             finish{
                 phong 0.8
@@ -914,22 +914,21 @@ object{
         
 #declare i = 0 ;
 #declare col=Red;
-#declare Random_1 = seed (169); /*     */
+#declare Random_1 = seed (999);      
 #for (i, 0, nbEtageBranches-2)
      
     choixCouleur(int(99*rand( Random_1)), col)
     constructionGuirlande(4-i*0.8, 0.1 , i, col, false)
 
 
-#end    
-
+#end      
+     
 #for (i, 0, (nbEtageBranches-1)/(nbEtageBranches/2))
  
     constructionGuirlandeElectrique(4-i*0.8, 0.1 , i, Orange) 
     
 
-#end                                        
-                                                    
+#end                                             
 
                                                    
 
