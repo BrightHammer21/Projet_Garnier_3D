@@ -18,9 +18,10 @@
 #declare sca=25;  
 
 camera{   
-    location <0.1*sca,1*sca,9>  
+    //location <0.1*sca,1*sca,9>  
+    location <10,10,2>   
     //location <0,0,25>
-    look_at <0,0,9>
+    look_at <-6,-6,9>      //0,0,9
     sky <0,0,1>
     right <-image_width/image_height,0,0>
 }
@@ -62,9 +63,9 @@ plane{
         texture{
             pigment{  
             
-                brick color  GreenCopper,
-                color PaleGreen mortar 5 brick_size 50        
-                //color White             
+                //brick color  GreenCopper,
+                //color PaleGreen mortar 5 brick_size 50        
+                color White             
             } 
             finish{
                 phong 0.8
@@ -87,7 +88,8 @@ plane{
 
 
 
-///////// SAPIN
+///////// SAPIN  
+
 
 #declare hauteurTronc = 3; 
 #declare rayonTronc = 3;
@@ -185,17 +187,99 @@ plane{
                              rayonBoulesSapin/(i+1)/4
                              
                         } 
-                         
-                        lathe
-                        {
-                          linear_spline 
-                          4 //nbr_Pt
-                          <0.3/(i+1),0>,
-                          <0.3/(i+1),0.4/(i+1)>, <0,0.3/(i+1)>, <0,0.1/(i+1)>  
-                          rotate<0,0,12*k>     
-                          translate<rayon*cos(theta2)+0.09,rayon*sin(theta2)+0.5,hauteurTronc+(monZ/2)-0.45-(nbEtageBranches-i)/20> 
-                          pigment {White transmit .5} 
-                        }      
+                           
+                        union  //LES 3 LATHES DIFFERENTES DECORANT LES FICELLES DU SAPIN
+                        {    
+                            
+                             #if(mod(k,2)=0)                               
+                                lathe
+                                {
+                                      linear_spline 
+                                      4 //nbr_Pt   
+                                      
+                                      <0.3/(i+1),0>,
+                                      <0.3/(i+1),0.4/(i+1)>, 
+                                      <0,0.3/(i+1)>, 
+                                      <0,0.1/(i+1)> 
+                                   
+                                      pigment {White transmit .5} 
+                                }     
+                                lathe
+                                {
+                                      linear_spline 
+                                      4 //nbr_Pt 
+                                      
+                                      <0,0.1/(i+1)>,
+                                      <0.5/(i+1),0.4/(i+1)>, 
+                                      <0.4/(i+1),0.1/(i+1)>, 
+                                      <0.2/(i+1),0.05/(i+1)>
+                                   
+                                 
+                                      pigment {Black transmit .5} 
+                                } 
+                              
+                            #elseif(mod(k,3)=0)
+                                                 
+                                 lathe
+                                {
+                                      linear_spline 
+                                      4 //nbr_Pt   
+                                      
+                                      <0.3/(i+1),0>,
+                                      <0.02/(i+1),0.4/(i+1)>, 
+                                      <0.12/(i+1),0.15/(i+1)>, 
+                                      <0,0.1/(i+1)> 
+                                   
+                                      pigment {Pink transmit .5} 
+                                }     
+                                lathe
+                                {
+                                      linear_spline 
+                                      3 //nbr_Pt 
+                                      
+                                      <0,0.1/(i+1)>,
+                                      <0.5/(i+1),0.1/(i+1)>, 
+                                      <0.3/(i+1),0.1/(i+1)> 
+                                     
+                                   
+                                 
+                                      pigment {Yellow} 
+                                }                  
+                                                 
+                                                 
+                            #else  
+                                   lathe
+                                {
+                                      linear_spline 
+                                      3 //nbr_Pt   
+                                      
+                                      <0,0>,
+                                      <0.26/(i+1),0.2/(i+1)>, 
+                                      <0.3/(i+1),0.5/(i+1)>
+                                   
+                                      pigment {Blue transmit .5} 
+                                }     
+                                lathe
+                                {
+                                      linear_spline 
+                                      3 //nbr_Pt 
+                                      
+                                       <0.3/(i+1),0.5/(i+1)>,
+                                      <0,0.45/(i+1)>, 
+                                      <0.15/(i+1),0.6/(i+1)>
+                                   
+                                 
+                                      pigment {Green transmit .5} 
+                                } 
+                            #end 
+                             
+                            rotate<0,0,12*k>     
+                            translate<rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.45-(nbEtageBranches-i)/20> 
+                                 
+                        
+                        }   
+                        
+                        
                          
                         pigment
                         {
@@ -408,16 +492,18 @@ plane{
                      
 object{         
     monSapin
-}                   
+}                
+
+/*  
 constructionGuirlande(4, 0.1 , 0, Green, false)    
 
 constructionGuirlande(3.2, 0.1, 1, Red, false)   
 
-constructionGuirlande(2.4, 0.1, 2, Yellow, false) 
+constructionGuirlande(2.4, 0.1, 2, Yellow, false)  
 
 constructionGuirlande(1.6, 0.1,3, Orange, false)    
 
-constructionGuirlande(0.8, 0.1, 4, Pink, false) 
+constructionGuirlande(0.8, 0.1, 4, Pink, false)  
                                                     
                                                     
                                                     
@@ -428,6 +514,6 @@ constructionGuirlande(3.2, 0.1, 1, Black, true)
      
 constructionGuirlande(2.4, 0.1, 2, Black, true) 
         
-constructionGuirlande(1.6, 0.1, 3, Black, true) 
+constructionGuirlande(1.6, 0.1, 3, Black, true)  */
                                                    
 
