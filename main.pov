@@ -273,7 +273,8 @@ plane{
                                 } 
                             #end 
                              
-                            rotate<0,0,12*k>     
+                          
+                            rotate<-90,0,0>    
                             translate<rayon*cos(theta2),rayon*sin(theta2),hauteurTronc+(monZ/2)-0.45-(nbEtageBranches-i)/20> 
                                  
                         
