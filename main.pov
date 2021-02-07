@@ -387,7 +387,8 @@ plane{
                     tabPt22[p+1] 
                     epaisseur  
                     pigment {color coul}                   
-                    translate <0,0,1>   
+                    translate <0,0,0.5>
+                    rotate<0,0,-115>    
                  }         
                    
                  #if(mod(10*clock,2)=0)   
@@ -397,8 +398,8 @@ plane{
                         0.2    
                         
                         pigment {color maCouleur1}    
-                                                           
-                       translate <0,0,1>      
+                        rotate<0,0,-115>                                    
+                        translate <0,0,0.5>      
                     } 
                  #else 
                      sphere {
@@ -407,18 +408,14 @@ plane{
                         0.2    
                         
                         pigment {color maCouleur2}    
-                                                        
-                       translate <0,0,1>    
+                        rotate<0,0,-115>                                
+                        translate <0,0,0.5>    
                     }
               
                  #end
                     
-              
-            
              
-             
-             
-             #else 
+             #else //////////////////////////Guirlande normale
                   cylinder{
                     tabPt22[p] 
                     tabPt22[p+1] 
@@ -439,20 +436,21 @@ plane{
                     tabPt1[j] 
                     tabPt1[j+1] 
                     epaisseur  
-                    pigment {color coul}                
-                    translate <0,0,1>   
+                    pigment {color coul}  
+                    rotate<0,0,-115>               
+                    translate <0,0,0.5>   
                }            
                      
              
-                   #if(mod(10*clock,2)=0)   
+                 #if(mod(10*clock,2)=0)   
                         sphere {
                       
                         < tabPt1[j].x, tabPt1[j].y ,tabPt1[j].z>
                         0.2    
                         
                         pigment {color maCouleur1}    
-                                                            
-                       translate <0,0,1>     
+                         rotate<0,0,-115>                                   
+                        translate <0,0,0.5>     
                     } 
                  #else 
                      sphere {
@@ -461,14 +459,14 @@ plane{
                         0.2    
                         
                         pigment {color maCouleur2}    
-                                                           
-                       translate <0,0,1>     
+                        rotate<0,0,-115>                                    
+                        translate <0,0,0.5>     
                     }
               
                  #end
               
              
-             #else 
+             #else /////////////////////////////Guirlande normale
                   cylinder{
                     tabPt1[j] 
                     tabPt1[j+1] 
@@ -715,37 +713,21 @@ object{
 #declare i = 0 ;
 #declare col=Red;
 #declare Random_1 = seed (6666);
-#for (i, 0, nbEtageBranches-2)
-
-
-
+/*#for (i, 0, nbEtageBranches-2)
+     
     choixCouleur(int(99*rand( Random_1)), col)
     constructionGuirlande(4-i*0.8, 0.1 , i, col, false)
 
 
-#end          
-        /*
-        
-constructionGuirlande(4, 0.1 , 0, Green, false)    
+#end */ 
 
-constructionGuirlande(3.2, 0.1, 1, Red, false)   
+#for (i, 0, nbEtageBranches-3)
+ 
+    constructionGuirlande(4-i*0.8, 0.1 , i, Yellow, true)
 
-constructionGuirlande(2.4, 0.1, 2, Yellow, false)  
-
-constructionGuirlande(1.6, 0.1,3, Orange, false)    
-
-constructionGuirlande(0.8, 0.1, 4, Pink, false)    */
-                                                 
-                                                                                                      
+#end         
+                                                
                                                     
-                                                    
- /*                                                     
-constructionGuirlande(4, 0.1, 0, Black, true) 
-        
-constructionGuirlande(3.2, 0.1, 1, Black, true)    
-     
-constructionGuirlande(2.4, 0.1, 2, Black, true) 
-        
-constructionGuirlande(1.6, 0.1, 3, Black, true)  */
+
                                                    
 
